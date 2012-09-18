@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:flex="http://www.springframework.org/schema/flex"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+ 	http://www.springframework.org/schema/flex  http://www.springframework.org/schema/flex/spring-flex-1.0.xsd">
+
+	<bean 
+		id="messageSource"
+        class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames" value="userManagementException"/>
+    </bean>
+   
+    <bean
+		id="exceptionHandler"
+		class="org.saibaba.fw.exception.DynamicExceptionHandler" />
+	
+	<bean id="abstractService" class="org.saibaba.fw.service.impl.AbstractServiceImpl" abstract="true">		
+		<property name="messageSource" ref="messageSource" />
+		<property name="exceptionHandler" ref="exceptionHandler" />
+	</bean>
+			     
+	<bean id="abstractCommonService" parent="abstractService" 
+		class="org.saibaba.common.service.impl.AbstractCommonServiceImpl" abstract="true">
+		<property name="genericDao" ref="genericDao" />
+		<property name="lookupService" ref="lookupService" />
+		<property name="messageSource" ref="messageSource" />
+		<property name="exceptionHandler" ref="exceptionHandler" />
+	</bean>
+	
+	<bean id="lookupService" parent="abstractService" class="org.saibaba.common.service.impl.LookupServiceImpl">
+		<property name="lookupDao" ref="lookupDao" />
+		<property name="excludeFromCache">
+            <list>
+                
+            </list>
+        </property>
+	</bean>
+
+	<bean id="userMergeService"	parent="abstractService" class="org.saibaba.common.service.impl.UserMergeServiceImpl"/>
+	
+	
+	<bean id="userManagementService" parent="abstractCommonService"
+		class="org.saibaba.common.service.impl.UserManagementServiceImpl" >
+		<property name="userManagementDao" ref="userManagementDao" />
+		<property name="userMergeService" ref="userMergeService" />
+	</bean>
+
+</beans>
