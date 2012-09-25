@@ -2,163 +2,220 @@
 
 <html>
 <head>
-	<script type="text/javascript" src="js/contacts.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="css/sai.css" />
+<script type="text/javascript" src="js/contacts.js"></script>
+<script type="text/javascript" src="js/niceforms.js"></script>
+<script src="js/jquery-1.8.0.js"></script>
+<script src="js/ui/jquery.ui.core.js"></script>
+<script src="js/ui/jquery.ui.widget.js"></script>
+<script src="js/ui/jquery.ui.datepicker.js"></script>
+<link rel="stylesheet" href="css/base/jquery.ui.all.css">
+
+<link rel="stylesheet" type="text/css" media="all" href="css/demos.css" />
+
 	<title><spring:message code="App.Title"></spring:message> </title>
 </head>
 <body style="font-family: Arial; font-size:smaller;">
+<div id="container">
 <center>
 <%@include file="header.jsp" %>
 
-<table  bgcolor="lightblue" width="750" height="500" align="center" style="border-collapse: collapse;" border="1" bordercolor="#006699" >
-	<tr>
-		<td align="center"><h3>Edit Mandir Form</h3></td>
-	</tr>
-  <tr valign="top" align="center">
-    <td align="center">
+<br/>
+<br/>
+<br/>
  		<form:form action="updateMandir.html" method="post" commandName="editMandir">
  		<form:hidden path="mandirId"/>
-				<table width="500" style="border-collapse: collapse;" border="0" bordercolor="#006699" cellspacing="2" cellpadding="2">					
-					<tr>
-						<td width="100" align="right">Mandir Code</td>
-						<td width="150">
-						<form:input path="code" readonly="true"/></td>
-						<td align="left">
-						<form:errors path="code" cssStyle="color:red"></form:errors>  </td>
-					</tr>
+					<fieldset>
+						<legend>
+							<span>Mandir Details</span>
+						</legend>
+						<dl>
+							<dt>
+								<label for="mandir_code">Mandir Code</label>
+							</dt>
+							<dd>
+								<form:input path="code"  readonly="true"/>
+								<form:errors path="code" cssStyle="color:red" />
+							</dd>
+						</dl>
 				
-					<tr>
-						<td width="100" align="right">Mandir Name</td>
-						<td width="150">
-						<form:input path="name"/></td>
-						<td align="left">
-						<form:errors path="name" cssStyle="color:red"></form:errors> 
-						</td>
-					</tr>
-					<tr>
-						<td width="100" align="right">Description</td>
-						<td>						
-							<form:input path="description"/>						
-						</td>
-						<td align="left"><form:errors path="description" cssStyle="color:red"></form:errors>  </td>
+				<dl>
+							<dt>
+								<label for="name">Mandir Name</label>
+							</dt>
+							<dd>
+								<form:input path="name" />
+								<form:errors path="name" cssStyle="color:red" />
+							</dd>
+						</dl>
+
+						<dl>
+							<dt>
+								<label for="description">Description</label>
+							</dt>
+
+							<dd>
+									<form:textarea  path="description" rows="5" cols="30"/>
+								<form:errors path="description" cssStyle="color:red" />
+							</dd>
+						</dl>
+
+
+						<dl>
+							<dt>
+								<label for="description">Website</label>
+							</dt>
+
+							<dd>
+								<form:input path="website" />
+								<form:errors path="website" cssStyle="color:red" />
+							</dd>
+						</dl>
+					</fieldset>
+
+					<fieldset>
+						<legend>
+							<span>Mandir Address</span>
+						</legend>
+
+
+						<dl>
+							<dt>
+								<label for="country">Country</label>
+							</dt>
+							<dd>
+								<form:select path="mandirAddress.country"
+									items="${countryList}" />
+							</dd>
+
+						</dl>
+
+
+						<dl>
+							<dt>
+								<label for="state">State</label>
+							</dt>
+							<dd>
+								<form:select path="mandirAddress.state" items="${statesList}" />
+							</dd>
+						</dl>
+
+
+						<dl>
+							<dt>
+								<label for="region">Region</label>
+							</dt>
+							<dd>							
+								<form:select path="mandirAddress.region" items="${regionList}" />
+							</dd>
+
+						</dl>
+						<dl>
+							<dt>
+
+								<label for="email">City</label>
+							</dt>
+							<dd>
+								<form:input path="mandirAddress.city" />
+								<form:errors path="mandirAddress.city" cssStyle="color:red"></form:errors>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								<label for="line1">Address 1</label>
+							</dt>
+							<dd>
+								<form:input path="mandirAddress.line1" />
+								<form:errors path="mandirAddress.line1" cssStyle="color:red"></form:errors>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								<label for="line2">Address 2</label>
+							</dt>
+							<dd>
+								<form:input path="mandirAddress.line2" />
+								<form:errors path="mandirAddress.line2" cssStyle="color:red"></form:errors>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								<label for="line3">Address 3</label>
+							</dt>
+							<dd>
+								<form:input path="mandirAddress.line3" />
+								<form:errors path="mandirAddress.line3" cssStyle="color:red"></form:errors>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								<label for="zipcode">Pincode/ZipCode</label>
+							</dt>
+							<dd>
+								<form:input path="mandirAddress.postalCode" />
+								<form:errors path="mandirAddress.postalCode"
+									cssStyle="color:red"></form:errors>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								<label for="zipcode">Info gathered on</label>
+
+							</dt>
+							<dd>  								<form:input path="infoGatheredOn" id="datepicker" />
+								<form:errors path="infoGatheredOn" cssStyle="color:red"></form:errors>
+					 
+							</dd>
+						</dl>
 						
-					</tr>
-					<tr>
-						<td width="100" align="right">Website</td>
-						<td><form:input path="website"/></td>
-						<td align="left">
-						<form:errors path="website" cssStyle="color:red"></form:errors>  </td>
-					</tr> 	
+												<dl>
+							<dt>
+								<label for="Latitude">Latitude</label>
+
+							</dt>
+							<dd>  							<form:input path="mandirAddress.latitude"/>
+								<form:errors path="mandirAddress.latitude" cssStyle="color:red"></form:errors>
+					 
+							</dd>
+						</dl>
+						
+																		<dl>
+							<dt>
+								<label for="Latitude">Longitude</label>
+
+							</dt>
+							<dd>  							<form:input path="mandirAddress.longitude"/>
+								<form:errors path="mandirAddress.longitude" cssStyle="color:red"></form:errors>
+					 
+							</dd>
+						</dl>
+								
+											
+																		<dl>
+							<dt>
+								<label for="Latitude">Maps Links</label>
+
+							</dt>
+							<dd>  							<form:input path="mandirAddress.mapsLink"/>
+								<form:errors path="mandirAddress.mapsLink" cssStyle="color:red"></form:errors>
+					 
+							</dd>
+						</dl>
+									
+											
 					
-						<form:hidden path="mandirAddress.id"/>
+					</fieldset>
 					
-																<tr>
-						<td width="100" align="right">Line 1</td>
-						<td><form:input path="mandirAddress.line1"/></td>
-						<td align="left">
-						<form:errors path="mandirAddress.line1" cssStyle="color:red"></form:errors>  </td>
-					</tr>
-				
-						<tr>
-						<td width="100" align="right">Line 2</td>
-						<td><form:input path="mandirAddress.line1"/></td>
-						<td align="left">
-						<form:errors path="mandirAddress.line2" cssStyle="color:red"></form:errors>  </td>
-					</tr>
-					
-						<tr>
-						<td width="100" align="right">Line 3</td>
-						<td><form:input path="mandirAddress.line3"/></td>
-						<td align="left">
-						<form:errors path="mandirAddress.line3" cssStyle="color:red"></form:errors>  </td>
-					</tr>
-					
-					
-						<tr>
-						<td width="100" align="right">City</td>
-						<td><form:input path="mandirAddress.city"/></td>
-						<td align="left">
-						<form:errors path="mandirAddress.city" cssStyle="color:red"></form:errors>  </td>
-					</tr>
-					
-											<tr>
-						<td width="100" align="right">Region</td>
-						<td> <form:select path="mandirAddress.region" items="${regionList}" /></td>
-						<td align="left">
-					 </td>
-					</tr>
-					
-											<tr>
-						<td width="100" align="right">State</td>
-						<td> 	<form:select path="mandirAddress.state" items="${statesList}" /></td>
-						<td align="left">
-						  </td>
-					</tr>
-					
-												<tr>
-						<td width="100" align="right">Country</td>
-						<td>	<form:select path="mandirAddress.country"
-									items="${countryList}" /></td>
-						<td align="left">
-						  </td>
-					</tr>
-					
-												<tr>
-						<td width="100" align="right">Postal Code</td>
-						<td><form:input path="mandirAddress.postalCode"/></td>
-						<td align="left">
-						<form:errors path="mandirAddress.postalCode" cssStyle="color:red"></form:errors>  </td>
-					</tr>
-					
-					
-					
-																<tr>
-						<td width="100" align="right">Latitude</td>
-						<td><form:input path="mandirAddress.latitude"/></td>
-						<td align="left">
-						<form:errors path="mandirAddress.latitude" cssStyle="color:red"></form:errors>  </td>
-					</tr>
-					
-					
-																<tr>
-						<td width="100" align="right">Longitude</td>
-						<td><form:input path="mandirAddress.longitude"/></td>
-						<td align="left">
-						<form:errors path="mandirAddress.longitude" cssStyle="color:red"></form:errors>  </td>
-					</tr>
-					
-					
-																<tr>
-						<td width="100" align="right">Maps Links</td>
-						<td><form:input path="mandirAddress.mapsLink"/></td>
-						<td align="left">
-						<form:errors path="mandirAddress.mapsLink" cssStyle="color:red"></form:errors>  </td>
-					</tr>
-					
-								<tr>
-						<td width="100" align="right">Info gathered on</td>
-						<td><form:input path="infoGatheredOn"/></td>
-						<td align="left">
-						<form:errors path="infoGatheredOn" cssStyle="color:red"></form:errors>  </td>
-					</tr>
-					
-					
-					
-					<tr valign="bottom">
-						<td colspan="3" align="center">
-						<input type="button"  value="Delete" onclick="javascript:deleteContact('deleteMandir.html?id=${editContact.mandirId}');">
+					<fieldset class="action">
+
+				<input type="button"  value="Delete" onclick="javascript:deleteContact('deleteMandir.html?id=${editContact.mandirId}');">
 						&nbsp;&nbsp;
 						<input type="submit" name="" value="Save">						
 						&nbsp;&nbsp;
 						<input type="button"  value="Back" onclick="javascript:go('viewAllMandirs.html');">
-						</td>
-					</tr>
-					
-				</table>				
-		</form:form>
-    </td>    
-  </tr>
-</table>
+					</fieldset>
+				</form:form>
 
-</center>
+</div>
 </body>
 </html>

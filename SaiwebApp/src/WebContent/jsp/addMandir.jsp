@@ -3,16 +3,17 @@
 <html>
 <head>
 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <link rel="stylesheet" type="text/css" media="all" href="css/sai.css" />
 <script type="text/javascript" src="js/contacts.js"></script>
+<script type="text/javascript" src="js/niceforms.js"></script>
+
+
 <script src="js/jquery-1.8.0.js"></script>
 <script src="js/ui/jquery.ui.core.js"></script>
 <script src="js/ui/jquery.ui.widget.js"></script>
 <script src="js/ui/jquery.ui.datepicker.js"></script>
-<link rel="stylesheet" href="css/base/jquery.ui.all.css">
-
-<link rel="stylesheet" type="text/css" media="all" href="css/demos.css" />
 
 <title><spring:message code="App.Title"></spring:message></title>
 <script>
@@ -22,18 +23,13 @@
 	</script>
 </head>
 <body style="font-family: Arial; font-size: smaller;">
-
-<center>
+<div id="container">
 <%@include file="header.jsp" %>
 
-	<table bgcolor="lightblue" width="750" height="500" align="center"
-		style="border-collapse: collapse;" border="1" bordercolor="#006699">
-		<tr>
-			<td align="center"><h3>Add Mandir</h3></td>
-		</tr>
-		<tr valign="top" align="center">
-			<td align="center"><form:form action="saveMandir.html"
-					method="post" commandName="addMandir">
+<br/>
+<br/>
+<br/>
+<form:form action="saveMandir.html" method="post" commandName="addMandir" class="niceform">
 					<fieldset>
 						<legend>
 							<span>Mandir Details</span>
@@ -53,7 +49,7 @@
 								<label for="name">Mandir Name</label>
 							</dt>
 							<dd>
-								<form:input path="name" />
+								<form:input path="name"  />
 								<form:errors path="name" cssStyle="color:red" />
 							</dd>
 						</dl>
@@ -64,7 +60,7 @@
 							</dt>
 
 							<dd>
-								<form:input path="description" />
+								<form:textarea  path="description"  />
 								<form:errors path="description" cssStyle="color:red" />
 							</dd>
 						</dl>
@@ -72,11 +68,11 @@
 
 						<dl>
 							<dt>
-								<label for="description">Website</label>
+								<label for="description" >Website</label>
 							</dt>
 
 							<dd>
-								<form:input path="website" />
+								<form:input path="website"  />
 								<form:errors path="website" cssStyle="color:red" />
 							</dd>
 						</dl>
@@ -178,7 +174,7 @@
 						</dl>
 
 					</fieldset>
-
+<!-- 
 					<fieldset>
 						<legend>
 							<span> Mandir Contact Details</span>
@@ -206,6 +202,7 @@
 						</dl>
 
 					</fieldset>
+	 -->
 					<!-- 
 <fieldset>
      <legend><span> Info gathered By </span> </legend>
@@ -247,10 +244,7 @@
 						&nbsp;&nbsp; <input type="button" value="Back"
 							onclick="javascript:go('viewAllMandirs.html');">
 					</fieldset>
-				</form:form></td>
-		</tr>
-	</table>
-	
-</center>	
+				</form:form>
+</div>
 </body>
 </html>

@@ -28,26 +28,18 @@ CREATE TABLE `address` (
   `line2` varchar(150) DEFAULT NULL,
   `line3` varchar(150) DEFAULT NULL,
   `city` varchar(60) NOT NULL,
-  `state_id` tinyint(4) NOT NULL,
-  `country_id` tinyint(4) NOT NULL,
-  `region_id` tinyint(4) NOT NULL,
+  `state` varchar(150) NOT NULL,
+  `country` varchar(150) NOT NULL,
+  `region` varchar(150) NOT NULL,
   `postal_code` varchar(10) DEFAULT NULL,
   `longitude` float DEFAULT NULL,
   `latitude` float DEFAULT NULL,
   `mapslink` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`address_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `address`
---
 
-LOCK TABLES `address` WRITE;
-/*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,'line1','line2','line 3','city',1,1,1,NULL,0,0,''),(2,'line1','line2','line 3','city',1,1,1,NULL,0,0,''),(3,'line1','line2','line 3','city',1,1,1,NULL,0,0,''),(4,'line1','line2','line 3','city',1,1,1,NULL,0,0,''),(5,'line1,line2,line1,line2',NULL,'line3','city',1,1,1,'23123231',34.33,342.333,'sdfsd'),(6,'s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s',NULL,'d','d',2,2,2,'321331',0,0,'sdf'),(7,',',NULL,'','',1,1,0,'',0,0,''),(8,'22685','','','Ashburn',1,1,1,'20148',0,0,NULL);
-/*!40000 ALTER TABLE `address` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `cd_contact_type`
@@ -114,48 +106,11 @@ CREATE TABLE `contact` (
   `email` varchar(200) NOT NULL,
   `primary_phonenumber` varchar(50) NOT NULL,
   `alt_phonenumber` varchar(50) NOT NULL,
+  `role` varchar(60) DEFAULT NULL,
   PRIMARY KEY (`contact_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `contact`
---
-
-LOCK TABLES `contact` WRITE;
-/*!40000 ALTER TABLE `contact` DISABLE KEYS */;
-INSERT INTO `contact` VALUES (1,0,'rama','krishna','ramakrishna@saimail.com','42342432','423423432'),(2,0,'rama','krishna','ramakrishna@saimail.com','42342432','423423432'),(3,1,'neelima','sai','neelima@saimail.com','21323123','2332434');
-/*!40000 ALTER TABLE `contact` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `contacts`
---
-
-DROP TABLE IF EXISTS `contacts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `contacts` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `address` varchar(45) DEFAULT NULL,
-  `gender` char(1) DEFAULT 'M',
-  `dob` datetime DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
-  `mobile` varchar(15) DEFAULT NULL,
-  `phone` varchar(15) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `contacts`
---
-
-LOCK TABLES `contacts` WRITE;
-/*!40000 ALTER TABLE `contacts` DISABLE KEYS */;
-/*!40000 ALTER TABLE `contacts` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `countries`
@@ -204,18 +159,10 @@ CREATE TABLE `mandir` (
   KEY `status_id` (`status_id`),
   CONSTRAINT `mandir_ibfk_1` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`),
   CONSTRAINT `mandir_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `cd_status` (`status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `mandir`
---
 
-LOCK TABLES `mandir` WRITE;
-/*!40000 ALTER TABLE `mandir` DISABLE KEYS */;
-INSERT INTO `mandir` VALUES (1,'sri saibaba','test 1','2012-08-14 01:06:11',1,'www.google.com',0,1,''),(3,'sri sai baba1','desc','2012-08-14 14:37:10',3,'www.saiserve.com',0,1,''),(4,'sri saibaba2','sai','2012-08-14 14:37:47',4,'www.google.com',0,1,''),(5,'HYD001','test 1','2012-08-14 00:00:00',5,'s',0,1,'saibaba'),(6,'hyd002','s','2012-08-15 00:00:00',6,'s',0,1,'namee'),(7,'kasjdklasjd','','2012-08-16 00:00:00',7,'',0,1,'wdkasd'),(8,'1234','Sai Mandir','2012-09-08 19:02:09',8,'http://saimandir.coom',0,1,'SaiMandir');
-/*!40000 ALTER TABLE `mandir` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `mandir_data_flow`
@@ -240,33 +187,6 @@ CREATE TABLE `mandir_data_flow` (
 LOCK TABLES `mandir_data_flow` WRITE;
 /*!40000 ALTER TABLE `mandir_data_flow` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mandir_data_flow` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `mandir_team_contact`
---
-
-DROP TABLE IF EXISTS `mandir_team_contact`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `mandir_team_contact` (
-  `user_id` tinyint(4) NOT NULL AUTO_INCREMENT,
-  `name` varchar(150) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `phonenumber` varchar(100) NOT NULL,
-  `place` varchar(100) NOT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `mandir_team_contact`
---
-
-LOCK TABLES `mandir_team_contact` WRITE;
-/*!40000 ALTER TABLE `mandir_team_contact` DISABLE KEYS */;
-INSERT INTO `mandir_team_contact` VALUES (1,'Ramakrishna Sakamuri','ramakrishna@saimail.com','9784956283','Boston'),(2,'Prasad Veeramachaneni','prasadv@saimail.com','9723655291','Dallas');
-/*!40000 ALTER TABLE `mandir_team_contact` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -424,15 +344,6 @@ CREATE TABLE `user_info` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `user_info`
---
-
-LOCK TABLES `user_info` WRITE;
-/*!40000 ALTER TABLE `user_info` DISABLE KEYS */;
-INSERT INTO `user_info` VALUES (1,'sai@saimail.com','sai','Sai-1','Sai','111-222-4444','USER','DELETED',0,NULL,NULL,NULL,NULL,NULL,NULL),(2,'venkypk@saimail.com','sai','Venky','Kullampalle','121683213818','USER','APPROVED',0,NULL,NULL,NULL,NULL,NULL,NULL),(3,'saiweb@saimail.com','saisai','sai','web','','SA','APPROVED',0,NULL,NULL,NULL,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `user_info` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `user_role`
@@ -491,4 +402,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-09-17  1:14:06
+-- Dump completed on 2012-09-25 17:54:21
