@@ -1,10 +1,13 @@
 package org.saiweb.mandirs.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,8 +21,9 @@ public class State {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int stateId;
 	
-	@Column(name="country_id", nullable = false)	
-	private int countryId;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "country_id", nullable = false)
+	private Country country;
 	
 	@Column(name="name", nullable = false)	
 	private String name;
@@ -32,20 +36,26 @@ public class State {
 		this.stateId = stateId;
 	}
 
-	public int getCountryId() {
-		return countryId;
-	}
-
-	public void setCountryId(int countryId) {
-		this.countryId = countryId;
-	}
-
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return the country
+	 */
+	public Country getCountry() {
+		return country;
+	}
+
+	/**
+	 * @param country the country to set
+	 */
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 	
 	

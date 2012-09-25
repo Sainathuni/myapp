@@ -2,6 +2,9 @@ package org.saiweb.mandirs.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.saiweb.mandirs.dao.api.CountryDAO;
 import org.saiweb.mandirs.model.Country;
 import org.saiweb.mandirs.model.Mandir;
@@ -16,9 +19,11 @@ public class CountryDAOImpl extends HibernateDaoSupport implements CountryDAO{
         return getHibernateTemplate().loadAll(Country.class);
 	}
 
-	public String getCountryById(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	public Country getCountryById(int countryId) {
+		Criteria criteria = getSession().createCriteria(Country.class);
+		Criterion eqCode = Restrictions.eq("countryId", countryId);
+		criteria.add(eqCode);
+		return (Country) criteria.uniqueResult();
 	}
 
 }

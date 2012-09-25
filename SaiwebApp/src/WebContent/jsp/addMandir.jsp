@@ -93,7 +93,7 @@
 								<label for="country">Country</label>
 							</dt>
 							<dd>
-								<form:select path="mandirAddress.countryId"
+								<form:select path="mandirAddress.country"
 									items="${countryList}" />
 							</dd>
 
@@ -105,7 +105,7 @@
 								<label for="state">State</label>
 							</dt>
 							<dd>
-								<form:select path="mandirAddress.stateId" items="${countryList}" />
+								<form:select path="mandirAddress.state" items="${statesList}" />
 							</dd>
 						</dl>
 
@@ -115,7 +115,7 @@
 								<label for="region">Region</label>
 							</dt>
 							<dd>							
-								<form:select path="mandirAddress.regionId" items="${regionList}" />
+								<form:select path="mandirAddress.region" items="${regionList}" />
 							</dd>
 
 						</dl>
@@ -171,9 +171,9 @@
 								<label for="zipcode">Info gathered on</label>
 
 							</dt>
-							<dd>
-								<form:input path="infoGatheredOn" id="datepicker" />
+							<dd><!-- 								<form:input path="infoGatheredOn" id="datepicker" />
 								<form:errors path="infoGatheredOn" cssStyle="color:red"></form:errors>
+						 -->
 							</dd>
 						</dl>
 

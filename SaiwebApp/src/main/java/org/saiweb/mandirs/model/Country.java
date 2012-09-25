@@ -16,17 +16,25 @@ public class Country {
     @Id
 	@Column(name="country_id")	
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    private int country_id;
+    private int countryId;
 
 	@Column(name="name",  nullable = false)	
 	private String name;
 
-	public int getCountry_id() {
-		return country_id;
+
+
+	/**
+	 * @return the countryId
+	 */
+	public int getCountryId() {
+		return countryId;
 	}
 
-	public void setCountry_id(int country_id) {
-		this.country_id = country_id;
+	/**
+	 * @param countryId the countryId to set
+	 */
+	public void setCountryId(int countryId) {
+		this.countryId = countryId;
 	}
 
 	public String getName() {

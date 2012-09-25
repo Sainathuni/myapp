@@ -9,5 +9,5 @@ public interface RegionDAO {
 	
 	public List<Region> getRegions();
 	
-	public String getRegionyById(int i);
+	public Region getRegionyById(int i);
 }

@@ -9,5 +9,5 @@ public interface CountryDAO {
 	
 	public List<Country> getCountries();
 	
-	public String getCountryById(int i);
+	public Country getCountryById(int i);
 }

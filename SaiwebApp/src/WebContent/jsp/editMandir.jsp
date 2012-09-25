@@ -82,23 +82,24 @@
 					
 											<tr>
 						<td width="100" align="right">Region</td>
-						<td><form:input path="mandirAddress.regionId"/></td>
+						<td> <form:select path="mandirAddress.region" items="${regionList}" /></td>
 						<td align="left">
-						<form:errors path="mandirAddress.regionId" cssStyle="color:red"></form:errors>  </td>
+					 </td>
 					</tr>
 					
 											<tr>
 						<td width="100" align="right">State</td>
-						<td><form:input path="mandirAddress.stateId"/></td>
+						<td> 	<form:select path="mandirAddress.state" items="${statesList}" /></td>
 						<td align="left">
-						<form:errors path="mandirAddress.stateId" cssStyle="color:red"></form:errors>  </td>
+						  </td>
 					</tr>
 					
 												<tr>
 						<td width="100" align="right">Country</td>
-						<td><form:input path="mandirAddress.countryId"/></td>
+						<td>	<form:select path="mandirAddress.country"
+									items="${countryList}" /></td>
 						<td align="left">
-						<form:errors path="mandirAddress.countryId" cssStyle="color:red"></form:errors>  </td>
+						  </td>
 					</tr>
 					
 												<tr>

@@ -7,23 +7,26 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.saiweb.mandirs.MandirConstants;
 import org.saiweb.mandirs.dao.api.ContactDAO;
 import org.saiweb.mandirs.dao.api.CountryDAO;
-import org.saiweb.mandirs.dao.api.RegionDAO;
-import org.saiweb.mandirs.dao.api.StatusDAO;
 import org.saiweb.mandirs.dao.api.MandirDAO;
+import org.saiweb.mandirs.dao.api.RegionDAO;
+import org.saiweb.mandirs.dao.api.StateDAO;
+import org.saiweb.mandirs.dao.api.StatusDAO;
+import org.saiweb.mandirs.model.Address;
 import org.saiweb.mandirs.model.Contact;
 import org.saiweb.mandirs.model.Country;
 import org.saiweb.mandirs.model.Mandir;
 import org.saiweb.mandirs.model.Region;
+import org.saiweb.mandirs.model.State;
 import org.saiweb.mandirs.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,6 +38,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MandirController {
+
+	private final Log logger = LogFactory.getLog(getClass());
+	
 	@Autowired
 	private MandirDAO mandirDAO;
 
@@ -49,6 +55,10 @@ public class MandirController {
 	
 	@Autowired
 	private ContactDAO contactDAO;
+	
+	@Autowired
+	private StateDAO stateDAO;	
+	
 	// @Autowired
 	// private MandirDataFlowDAO mandirsDataFlowDAO;
 	//
@@ -66,12 +76,26 @@ public class MandirController {
 
 		for (Iterator<Country> i = list.iterator(); i.hasNext();) {
 			Country country = (Country) i.next();
-			countriesList.put(Integer.toString(country.getCountry_id()),
-					country.getName());
+			countriesList.put(country.getName(),country.getName());
 		}
 
 		return countriesList;
 	}
+	
+	@ModelAttribute("statesList")
+	public Map<String, String> populateStatesList() {
+
+		Map<String, String> statesList = new LinkedHashMap<String, String>();
+		List<State> list = stateDAO.getAllStates();
+
+		for (Iterator<State> i = list.iterator(); i.hasNext();) {
+			State state = (State) i.next();
+			statesList.put( state.getName(), state.getName());
+		}
+
+		return statesList;
+	}	
+	
 	
 	@ModelAttribute("regionList")
 	public Map<String, String> populateRegionList() {
@@ -81,8 +105,7 @@ public class MandirController {
 
 		for (Iterator<Region> i = list.iterator(); i.hasNext();) {
 			Region region = (Region) i.next();
-			regionList.put(Integer.toString(region.getRegionId()),
-					region.getName());
+			regionList.put(region.getName(),region.getName());
 		}
 
 		return regionList;
@@ -91,7 +114,7 @@ public class MandirController {
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		dateFormat.setLenient(false);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
 				dateFormat, true));
@@ -139,13 +162,24 @@ public class MandirController {
 		if (result.hasErrors()) {
 			return errorPath;
 		}
-
+		Country country = getCountryById(1);
+		if (country == null) {
+			return errorPath;
+		}
+		State state = getStateById(1);
+		if (state == null) {
+			return errorPath;
+		}
+		
+		Region region = getRegionById(1);
+		if (region == null) {
+			return errorPath;
+		}		
 		Status madirStatus = getStatusByCode(MandirConstants.STATUS_DATA_COLLECTED);
 		if (madirStatus == null) {
 			return errorPath;
 		}
 		mandir.setStatus(madirStatus);
-		mandir.setInfoGatheredOn(new Date());
 		mandirDAO.save(mandir);
 		return "redirect:viewAllMandirs.html";
 	}
@@ -154,7 +188,8 @@ public class MandirController {
 	public ModelAndView viewMandirs(@RequestParam("status") Integer status) {
 		ModelAndView mav = new ModelAndView("showMandirs");
 		List<Mandir> mandirs = mandirDAO.getMandirsByStatusId(status);
-		mav.addObject("SEARCH_CONTACTS_RESULTS_KEY", mandirs);
+		logger.info("View Mandirs by Status" + status +"  : " + mandirs.size());
+		mav.addObject("MANDIR_LIST", mandirs);
 		return mav;
 	}
 
@@ -283,6 +318,22 @@ public class MandirController {
 		return mandirStatus;
 	}
 
+	private Country getCountryById(int counrtyId) {
+		Country country = countriesDAO.getCountryById(counrtyId);
+		return country;
+	}
+	
+	private State getStateById(int stateId) {
+		State state = stateDAO.getStateById(stateId);
+		return state;
+	}
+
+	private Region getRegionById(int regionId) {
+		Region region = regionsDAO.getRegionyById(regionId);
+			return region;
+	}
+	
+	
 	/**
 	 * @param contactDAO the contactDAO to set
 	 */

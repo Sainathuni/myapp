@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public class MandirDAOImpl extends HibernateDaoSupport implements MandirDAO {
 
 	public void save(Mandir mandir) {
-		getHibernateTemplate().save(mandir);
+		getHibernateTemplate().saveOrUpdate(mandir);
 	}
 
 	public void update(Mandir mandir) {
@@ -46,7 +46,7 @@ public class MandirDAOImpl extends HibernateDaoSupport implements MandirDAO {
 
 	public List<Mandir> getMandirsByStatusId(int status) {
 		Criteria criteria = getSession().createCriteria(Mandir.class);
-		Criterion eqLocation = Restrictions.eq("status", status);
+		Criterion eqLocation = Restrictions.eq("status.statusId", status);
 		criteria.add(eqLocation);
 		List<Mandir> list = (List<Mandir>) criteria.list();
 		return list;
@@ -55,7 +55,7 @@ public class MandirDAOImpl extends HibernateDaoSupport implements MandirDAO {
 	public List<Mandir> getMandirsByLocation(int regionId, int statusId) {
 		Criteria criteria = getSession().createCriteria(Mandir.class);
 		criteria.add(Restrictions.eq("status", statusId));
-		criteria.add(Restrictions.eq("mandirAddress.regionId", regionId));
+		criteria.add(Restrictions.eq("mandirAddress.region.regionId", regionId));
 		List<Mandir> list = (List<Mandir>) criteria.list();
 		return list;
 	}

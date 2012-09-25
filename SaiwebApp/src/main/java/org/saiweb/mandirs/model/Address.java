@@ -1,10 +1,13 @@
 package org.saiweb.mandirs.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -33,14 +36,14 @@ public class Address {
 	@Column(name="city")
 	private String city;
 	
-	@Column(name="state_id")
-	private int stateId;
+	@Column(name="state")
+	private String state;
 	
-	@Column(name="country_id")
-	private int countryId;
+	@Column(name="country")
+	private String country;
 	
-	@Column(name="region_id")
-	private int regionId;
+	@Column(name="region")
+	private String region;
 	
 	@Column(name="postal_code")
 	private String postalCode;
@@ -165,49 +168,7 @@ public class Address {
 	public void setMapsLink(String mapsLink) {
 		this.mapsLink = mapsLink;
 	}
-
-	/**
-	 * @return the stateId
-	 */
-	public int getStateId() {
-		return stateId;
-	}
-
-	/**
-	 * @param stateId the stateId to set
-	 */
-	public void setStateId(int stateId) {
-		this.stateId = stateId;
-	}
-
-	/**
-	 * @return the countryId
-	 */
-	public int getCountryId() {
-		return countryId;
-	}
-
-	/**
-	 * @param countryId the countryId to set
-	 */
-	public void setCountryId(int countryId) {
-		this.countryId = countryId;
-	}
-
-	/**
-	 * @return the regionId
-	 */
-	public int getRegionId() {
-		return regionId;
-	}
-
-	/**
-	 * @param regionId the regionId to set
-	 */
-	public void setRegionId(int regionId) {
-		this.regionId = regionId;
-	}
-
+	
 	/**
 	 * @return the postalCode
 	 */
@@ -221,5 +182,50 @@ public class Address {
 	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
 	}
+
+	/**
+	 * @return the state
+	 */
+	public String getState() {
+		return state;
+	}
+
+	/**
+	 * @param state the state to set
+	 */
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	/**
+	 * @return the country
+	 */
+	public String getCountry() {
+		return country;
+	}
+
+	/**
+	 * @param country the country to set
+	 */
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	/**
+	 * @return the region
+	 */
+	public String getRegion() {
+		return region;
+	}
+
+	/**
+	 * @param region the region to set
+	 */
+	public void setRegion(String region) {
+		this.region = region;
+	}
+
+	
+
 	
 }
