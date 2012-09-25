@@ -39,6 +39,9 @@ public class Contact {
 	@Column(name = "alt_phonenumber")
 	private String altPhone;
 
+	@Column(name = "role")
+	private String role;	
+	
 	/**
 	 * @return the firstname
 	 */
@@ -140,4 +143,20 @@ public class Contact {
 		this.altPhone = altPhone;
 	}
 
+	/**
+	 * @return the role
+	 */
+	public String getRole() {
+		return role;
+	}
+
+	/**
+	 * @param role the role to set
+	 */
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	
+	
 }

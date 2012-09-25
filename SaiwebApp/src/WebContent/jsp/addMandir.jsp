@@ -171,9 +171,9 @@
 								<label for="zipcode">Info gathered on</label>
 
 							</dt>
-							<dd><!-- 								<form:input path="infoGatheredOn" id="datepicker" />
+							<dd>  								<form:input path="infoGatheredOn" id="datepicker" />
 								<form:errors path="infoGatheredOn" cssStyle="color:red"></form:errors>
-						 -->
+					 
 							</dd>
 						</dl>
 

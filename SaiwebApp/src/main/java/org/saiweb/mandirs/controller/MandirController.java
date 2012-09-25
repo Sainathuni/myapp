@@ -111,7 +111,18 @@ public class MandirController {
 		return regionList;
 	}
 	
-
+	@ModelAttribute("rolesList")
+	public Map<String,String> populateRolesList() {
+		Map<String, String> rolesList = new LinkedHashMap<String, String>();
+		rolesList.put("Data Collection Team", "Data Collection Team");
+		rolesList.put("Typing Team", "Typing Team");
+		rolesList.put("Conversion Team", "Conversion Team");
+		rolesList.put("Editing Team", "Editing Team");	
+		rolesList.put("Editorial Team", "Editorial Team");	
+		rolesList.put("Development Team", "Development Team");			
+		rolesList.put("Quality Assurance Team", "Quality Assurance Team");			
+		return rolesList;
+	}
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");

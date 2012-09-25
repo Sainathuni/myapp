@@ -70,6 +70,16 @@
 							</dd>
 						</dl>
 
+							<dl>
+							<dt>
+								<label for="role">Role</label>
+							</dt>
+							<dd>
+							<form:select path="role"
+									items="${rolesList}" />
+								</dd>
+						</dl>
+
 						</fieldset>		
 
 <fieldset class="action">

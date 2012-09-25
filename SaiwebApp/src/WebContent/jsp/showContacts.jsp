@@ -32,7 +32,7 @@
 						<td><c:out value="${contact.firstname}"></c:out>  <c:out value="${contact.lastname}"></c:out></td>
 						<td><c:out value="${contact.email}"></c:out> </td>
 						<td><c:out value="${contact.primaryPhone}"></c:out></td>
-						<td><c:out value="${contact.altPhone}"></c:out>
+						<td><c:out value="${contact.role}"></c:out>
 						</td>
 						<td>&nbsp;<a href="updateContact.html?id=${contact.contactId}">Edit</a>
 							 &nbsp;&nbsp;<a
