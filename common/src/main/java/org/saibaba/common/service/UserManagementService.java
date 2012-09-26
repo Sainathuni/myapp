@@ -14,7 +14,7 @@ public interface UserManagementService {
 
 	public User getUserByEmail(String email) throws ServiceException;
 	
-	public User loginUser(String email, String password) throws ServiceException, UserException;
+	public User validateUserCredentials(String email, String password) throws ServiceException, UserException;
 
 	public InvocationResult updateUserProfile(User user)
 			throws ServiceException;
@@ -41,5 +41,8 @@ public interface UserManagementService {
 
 	public InvocationResult rejectUser(String email)
 			throws ServiceException;
+	
+	public void forgotPassword(String email) throws ServiceException,
+	UserException ;
 
 }

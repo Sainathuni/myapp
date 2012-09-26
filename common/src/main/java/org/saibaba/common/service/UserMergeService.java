@@ -8,7 +8,7 @@ public interface UserMergeService {
 
 	public void mergeUserRegistration(User source, User target) throws ServiceException;
 	
-	@Secured("ROLE_USER")
+	//@Secured("ROLE_USER")
 	public void mergeUserProfile(User source, User target) throws ServiceException;
 
 }

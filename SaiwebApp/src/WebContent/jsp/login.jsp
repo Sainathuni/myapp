@@ -10,35 +10,37 @@
 </head>
 <body style="font-family: Arial; font-size: smaller;">
 
-	<table bgcolor="lightblue" width="750" height="300" align="center"
+	<table bgcolor="lightblue" width="950" height="300" align="center"
 		style="border-collapse: collapse;" border="1" bordercolor="#006699">
 		<tr>
 			<td align="center"><h3>Login</h3></td>
 		</tr>
 		<tr valign="top" align="center">
 			<td align="center">
-			<form:form action="/SaiwebApp/login" method="post" commandName="user">
+			
+			<form class="login-form" action="j_spring_security_check" method="post" >
 					<fieldset>
 						<legend>
-							<span> Enter User Name and Password</span>
+							<span> Enter User ID and Password</span>
 						</legend>
 						<dl>
+							<p style="color:red">${message}</p>
+						 </dl>
+						<dl>
 							<dt>
-								<label for="email">User Name</label>
+								<label for="j_username">User ID (Email ID)</label>
 							</dt>
 							<dd>
-								<form:input path="email" />
-								<form:errors path="email" cssStyle="color:red" />
+								<input id="j_username" name="j_username" size="20" maxlength="50" type="text"/>								
 							</dd>
 						</dl>
 
 						<dl>
 							<dt>
-								<label for="password">Password</label>
+								<label for="j_password">Password</label>
 							</dt>
 							<dd>
-								<form:password path="password" />
-								<form:errors path="password" cssStyle="color:red" />
+								<input id="j_password" name="j_password" size="20" maxlength="50" type="password"/>								
 							</dd>
 						</dl>
 						
@@ -47,12 +49,17 @@
 	 <fieldset class="action">
  
            <input type="submit" name=""
-								value="Save">
-      <input type="reset" name="Reset" id="Reset" value="Reset" />
+								value="Login"> 
+     
     &nbsp;&nbsp; <input type="button"
-								value="Back" onclick="javascript:go('/SaiwebApp/home');">
+								value="Forgot Password" onclick="javascript:go('forgotPassword.html');">
+	&nbsp;&nbsp; <input type="button"
+								value="Register User" onclick="javascript:go('newUser.html');">
+	&nbsp;&nbsp; <input type="button"
+								value="Home" onclick="javascript:go('home.html');">
+	&nbsp;&nbsp; <input type="reset" name="Reset" id="Reset" value="Reset" />
     </fieldset>
-		</form:form>
+		</form>
 	
 	</td>
 		</tr>
