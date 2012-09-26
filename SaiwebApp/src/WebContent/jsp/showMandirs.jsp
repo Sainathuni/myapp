@@ -1,17 +1,17 @@
 <%@include file="taglib_includes.jsp"%>
 
-<html>
-<head>
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <link rel="stylesheet" type="text/css" media="all" href="css/sai.css" />
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
 <title><spring:message code="App.Title"></spring:message></title>
 <script type="text/javascript" src="js/contacts.js"></script>
 </head>
 <body style="font-family: Arial; font-size: smaller;">
 <%@include file="header.jsp" %>
-
-	<center>
+<div id="container">
 		<form action="searchMandirs.html" method="post">
 			<table style="border-collapse: collapse;" border="0"
 				bordercolor="#006699" width="500">
@@ -55,7 +55,7 @@
 				</c:forEach>
 			</c:if>
 		</table>
-	</center>
+</div>
 
 </body>
 </html>

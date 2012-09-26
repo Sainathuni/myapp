@@ -1,11 +1,16 @@
 <%@include file="taglib_includes.jsp"%>
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
+	<!--[if lt IE 9]><script src=http://html5shiv.googlecode.com/svn/trunk/html5.js></script><![endif]-->
+	<link href=css/styles.css rel=stylesheet />
+	<!--[if lt IE 9]><link href=css/ie.css rel=stylesheet /><![endif]-->
 <link rel="stylesheet" type="text/css" media="all" href="css/sai.css" />
+
 <script type="text/javascript" src="js/contacts.js"></script>
 <script type="text/javascript" src="js/niceforms.js"></script>
 
@@ -14,6 +19,7 @@
 <script src="js/ui/jquery.ui.core.js"></script>
 <script src="js/ui/jquery.ui.widget.js"></script>
 <script src="js/ui/jquery.ui.datepicker.js"></script>
+<link rel="stylesheet" href="css/base/jquery.ui.all.css">
 
 <title><spring:message code="App.Title"></spring:message></title>
 <script>
@@ -23,12 +29,19 @@
 	</script>
 </head>
 <body style="font-family: Arial; font-size: smaller;">
+<header id="banner" class="body">
+	<h1>SaiMandirs CMS</h1>
+ 
+
+ 
+</header>
+
+
+
+
 <div id="container">
 <%@include file="header.jsp" %>
 
-<br/>
-<br/>
-<br/>
 <form:form action="saveMandir.html" method="post" commandName="addMandir" class="niceform">
 					<fieldset>
 						<legend>
@@ -39,7 +52,7 @@
 								<label for="mandir_code">Mandir Code</label>
 							</dt>
 							<dd>
-								<form:input path="code" />
+								<form:input path="code" size="15" />
 								<form:errors path="code" cssStyle="color:red" />
 							</dd>
 						</dl>
@@ -49,7 +62,7 @@
 								<label for="name">Mandir Name</label>
 							</dt>
 							<dd>
-								<form:input path="name"  />
+								<form:input path="name"  size="50"/>
 								<form:errors path="name" cssStyle="color:red" />
 							</dd>
 						</dl>
@@ -60,7 +73,7 @@
 							</dt>
 
 							<dd>
-								<form:textarea  path="description"  />
+								<form:textarea  path="description"  rows="5" cols="50"/>
 								<form:errors path="description" cssStyle="color:red" />
 							</dd>
 						</dl>
@@ -72,7 +85,7 @@
 							</dt>
 
 							<dd>
-								<form:input path="website"  />
+								<form:input path="website" size="50" />
 								<form:errors path="website" cssStyle="color:red" />
 							</dd>
 						</dl>
@@ -121,7 +134,7 @@
 								<label for="email">City</label>
 							</dt>
 							<dd>
-								<form:input path="mandirAddress.city" />
+								<form:input path="mandirAddress.city" size="50" />
 								<form:errors path="mandirAddress.city" cssStyle="color:red"></form:errors>
 							</dd>
 						</dl>
@@ -130,7 +143,7 @@
 								<label for="line1">Address 1</label>
 							</dt>
 							<dd>
-								<form:input path="mandirAddress.line1" />
+								<form:input path="mandirAddress.line1" size="50"/>
 								<form:errors path="mandirAddress.line1" cssStyle="color:red"></form:errors>
 							</dd>
 						</dl>
@@ -139,7 +152,7 @@
 								<label for="line2">Address 2</label>
 							</dt>
 							<dd>
-								<form:input path="mandirAddress.line2" />
+								<form:input path="mandirAddress.line2" size="50"/>
 								<form:errors path="mandirAddress.line2" cssStyle="color:red"></form:errors>
 							</dd>
 						</dl>
@@ -148,7 +161,7 @@
 								<label for="line3">Address 3</label>
 							</dt>
 							<dd>
-								<form:input path="mandirAddress.line3" />
+								<form:input path="mandirAddress.line3" size="50" />
 								<form:errors path="mandirAddress.line3" cssStyle="color:red"></form:errors>
 							</dd>
 						</dl>
@@ -157,7 +170,7 @@
 								<label for="zipcode">Pincode/ZipCode</label>
 							</dt>
 							<dd>
-								<form:input path="mandirAddress.postalCode" />
+								<form:input path="mandirAddress.postalCode" size="15"/>
 								<form:errors path="mandirAddress.postalCode"
 									cssStyle="color:red"></form:errors>
 							</dd>

@@ -1,23 +1,24 @@
 <%@include file="taglib_includes.jsp" %>
 
-<html>
-<head>
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
 <link rel="stylesheet" type="text/css" media="all" href="css/sai.css" />
 <script type="text/javascript" src="js/contacts.js"></script>
 <script type="text/javascript" src="js/niceforms.js"></script>
+
+
 <script src="js/jquery-1.8.0.js"></script>
 <script src="js/ui/jquery.ui.core.js"></script>
 <script src="js/ui/jquery.ui.widget.js"></script>
 <script src="js/ui/jquery.ui.datepicker.js"></script>
 <link rel="stylesheet" href="css/base/jquery.ui.all.css">
-
-<link rel="stylesheet" type="text/css" media="all" href="css/demos.css" />
-
 	<title><spring:message code="App.Title"></spring:message> </title>
 </head>
 <body style="font-family: Arial; font-size:smaller;">
 <div id="container">
-<center>
 <%@include file="header.jsp" %>
 
 <br/>
@@ -44,7 +45,7 @@
 								<label for="name">Mandir Name</label>
 							</dt>
 							<dd>
-								<form:input path="name" />
+								<form:input path="name"  size="50" />
 								<form:errors path="name" cssStyle="color:red" />
 							</dd>
 						</dl>
@@ -55,7 +56,7 @@
 							</dt>
 
 							<dd>
-									<form:textarea  path="description" rows="5" cols="30"/>
+									<form:textarea  path="description" rows="5" cols="50"/>
 								<form:errors path="description" cssStyle="color:red" />
 							</dd>
 						</dl>
@@ -67,7 +68,7 @@
 							</dt>
 
 							<dd>
-								<form:input path="website" />
+								<form:input path="website"  size="50"/>
 								<form:errors path="website" cssStyle="color:red" />
 							</dd>
 						</dl>
@@ -125,7 +126,7 @@
 								<label for="line1">Address 1</label>
 							</dt>
 							<dd>
-								<form:input path="mandirAddress.line1" />
+								<form:input path="mandirAddress.line1"  size="50" />
 								<form:errors path="mandirAddress.line1" cssStyle="color:red"></form:errors>
 							</dd>
 						</dl>
@@ -134,7 +135,7 @@
 								<label for="line2">Address 2</label>
 							</dt>
 							<dd>
-								<form:input path="mandirAddress.line2" />
+								<form:input path="mandirAddress.line2"  size="50"/>
 								<form:errors path="mandirAddress.line2" cssStyle="color:red"></form:errors>
 							</dd>
 						</dl>
@@ -143,7 +144,7 @@
 								<label for="line3">Address 3</label>
 							</dt>
 							<dd>
-								<form:input path="mandirAddress.line3" />
+								<form:input path="mandirAddress.line3"  size="50"/>
 								<form:errors path="mandirAddress.line3" cssStyle="color:red"></form:errors>
 							</dd>
 						</dl>
@@ -152,7 +153,7 @@
 								<label for="zipcode">Pincode/ZipCode</label>
 							</dt>
 							<dd>
-								<form:input path="mandirAddress.postalCode" />
+								<form:input path="mandirAddress.postalCode"  size="15"/>
 								<form:errors path="mandirAddress.postalCode"
 									cssStyle="color:red"></form:errors>
 							</dd>
@@ -173,7 +174,7 @@
 								<label for="Latitude">Latitude</label>
 
 							</dt>
-							<dd>  							<form:input path="mandirAddress.latitude"/>
+							<dd>  							<form:input path="mandirAddress.latitude"  size="15"/>
 								<form:errors path="mandirAddress.latitude" cssStyle="color:red"></form:errors>
 					 
 							</dd>
@@ -184,7 +185,7 @@
 								<label for="Latitude">Longitude</label>
 
 							</dt>
-							<dd>  							<form:input path="mandirAddress.longitude"/>
+							<dd>  							<form:input path="mandirAddress.longitude"  size="15"/>
 								<form:errors path="mandirAddress.longitude" cssStyle="color:red"></form:errors>
 					 
 							</dd>
@@ -196,7 +197,7 @@
 								<label for="Latitude">Maps Links</label>
 
 							</dt>
-							<dd>  							<form:input path="mandirAddress.mapsLink"/>
+							<dd>  							<form:input path="mandirAddress.mapsLink"  size="50"/>
 								<form:errors path="mandirAddress.mapsLink" cssStyle="color:red"></form:errors>
 					 
 							</dd>
@@ -207,10 +208,10 @@
 					</fieldset>
 					
 					<fieldset class="action">
-
+<!--
 				<input type="button"  value="Delete" onclick="javascript:deleteContact('deleteMandir.html?id=${editContact.mandirId}');">
 						&nbsp;&nbsp;
-						<input type="submit" name="" value="Save">						
+	-->					<input type="submit" name="" value="Update">						
 						&nbsp;&nbsp;
 						<input type="button"  value="Back" onclick="javascript:go('viewAllMandirs.html');">
 					</fieldset>
