@@ -9,9 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.saibaba.common.exception.UserException;
 import org.saibaba.common.service.LookupService;
 import org.saibaba.common.service.UserConstants;
@@ -20,18 +18,21 @@ import org.saibaba.domain.common.InvocationResult;
 import org.saibaba.domain.common.KeyValue;
 import org.saibaba.domain.lookup.Role;
 import org.saibaba.domain.lookup.UserStatus;
+import org.saibaba.domain.security.SecurityConstants;
 import org.saibaba.domain.user.User;
 import org.saibaba.fw.domain.Lookup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -49,6 +50,18 @@ public class UserManagementController
 
 	public LookupService getLookupService() {
 		return lookupService;
+	}
+
+	@Autowired
+    private Validator validator;
+
+	public Validator getValidator() {
+		return validator;
+	}
+
+
+	public void setValidator(Validator validator) {
+		this.validator = validator;
 	}
 
 
@@ -99,63 +112,75 @@ public class UserManagementController
 		return mav;
 	}
 	
+	@Secured({SecurityConstants.ROLE_USER, SecurityConstants.ROLE_SA, SecurityConstants.ROLE_TCO})
 	@RequestMapping(value="/modifyUser", method=RequestMethod.GET)
 	public ModelAndView modifyUser(HttpServletRequest request, 
 	        HttpServletResponse response)
 	{
-		User user= null;
-		if(request != null)
+		
+		User user = getUser();
+				ModelAndView mav = new ModelAndView("home");
+		/**if(request != null)
 		{
 			user = (User) request.getSession().getAttribute("USER");
 			System.out.println("User in session:"+user);
 		}
 		if(user == null)
 		{
-			ModelAndView mav = new ModelAndView("redirect:/login");
+			ModelAndView mav = new ModelAndView("redirect:/login.html");
 			return mav;
+		}*/
+		if(user != null)
+		{			System.out.println("Modify User Form");
+			
+			User dbUser= new User();
+			try{
+				dbUser = userManagementService.getUserByEmail(user.getEmail());
+				mav.setViewName("modifyUser");
+			}catch (Exception ex)
+			{
+				ex.printStackTrace();
+			}
+			mav.getModelMap().put("user", dbUser);
 		}
-		System.out.println("Modify User Form");
-		ModelAndView mav = new ModelAndView("modifyUser");
-		User dbUser= new User();
-		try{
-			dbUser = userManagementService.getUserByEmail(user.getEmail());
-		}catch (Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		mav.getModelMap().put("user", dbUser);
 		return mav;
 	}
 	
 	@RequestMapping(value="/newUser", method=RequestMethod.POST)
-	public String create(@ModelAttribute("user")User user, BindingResult result, SessionStatus status)
+	public ModelAndView create(@ModelAttribute("user")User user, BindingResult result, SessionStatus status)
 	{
 		System.out.println("User:"+user);
-		if (result.hasErrors()) 
-		{				
-			return "newUser";
-		}
+		validator.validate(user, result);
+		ModelAndView mav  = new ModelAndView("newUser");
+		InvocationResult invocationResult = null;
+		if (result.hasErrors()) {
+            return mav;
+        }
+		
 		user.setStatus(new UserStatus(UserStatus.APPROVED));
+		
 		try{
-			InvocationResult invocationResult = userManagementService.register(user);
+			invocationResult = userManagementService.register(user);
 			if(!org.springframework.util.CollectionUtils.isEmpty(invocationResult.getErrors()))
 			{
 				for(KeyValue key: invocationResult.getErrors())
 				{
 					result.rejectValue(key.getField(), key.getKey());
 				}
-				return "newUser";
+				return mav;
 			}
 		}catch (Exception ex)
 		{
 			ex.printStackTrace();
 		}
 		status.setComplete();
-		//return "redirect:/modifyUser?email="+user.getEmail();
-		return "redirect:/home";
+		invocationResult.setStatusMessage("User Registration is successful");
+		mav.getModelMap().put("result", invocationResult);
+		mav.setViewName("confirmation");
+		return mav;
 	}
 		
-	@RequestMapping(value="/login", method=RequestMethod.POST)
+	/**@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(@ModelAttribute("user")User user, BindingResult result, HttpServletRequest request, 
 	        HttpServletResponse response)
 	{
@@ -164,7 +189,7 @@ public class UserManagementController
 			dbUser = userManagementService.loginUser(user.getEmail(), user.getPassword());
 			HttpSession session = request.getSession();
 			session.setAttribute("USER",dbUser);
-			return "redirect:/home";
+			return "redirect:/home.html";
 		}catch (UserException se)
 		{
 			se.printStackTrace();
@@ -180,9 +205,37 @@ public class UserManagementController
 			th.printStackTrace();
 		}
 		return "redirect:/home";
+	}*/
+	
+	@RequestMapping(value="/forgotPassword", method=RequestMethod.POST)
+	public ModelAndView forgotPassword(@ModelAttribute("user")User user, BindingResult result, HttpServletRequest request, 
+	        HttpServletResponse response)
+	{
+		ModelAndView mav = new ModelAndView("confirmation");
+		try{
+			userManagementService.forgotPassword(user.getEmail());
+			InvocationResult invocationResult = new InvocationResult();
+			invocationResult.setStatusMessage("Password sent successfully to the email on profile.");
+			mav.getModelMap().put("result", invocationResult);
+			return mav;
+		}catch (UserException se)
+		{
+			se.printStackTrace();
+			if(se.getMessageCode().equals(UserConstants.INVALID_USER_ID)){
+				result.rejectValue("email", se.getMessageCode());
+			}
+			mav.setViewName("forgotPassword");
+			return mav;
+		}
+		catch (Throwable th)
+		{
+			th.printStackTrace();
+		}
+		
+		return mav;
 	}
 	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
+/**	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public ModelAndView login()
 	{
 		System.out.println("Login Form");
@@ -190,30 +243,48 @@ public class UserManagementController
 		User user = new User();
 		mav.getModelMap().put("user", user);
 		return mav;
+	}*/
+	
+	@RequestMapping(value="/forgotPassword", method=RequestMethod.GET)
+	public ModelAndView forgotPassword()
+	{
+		System.out.println("Forgot Password Form");
+		ModelAndView mav = new ModelAndView("forgotPassword");
+		User user = new User();
+		mav.getModelMap().put("user", user);
+		return mav;
 	}
 	
+	@Secured({SecurityConstants.ROLE_USER, SecurityConstants.ROLE_SA, SecurityConstants.ROLE_TCO})
 	@RequestMapping(value="/modifyUser", method=RequestMethod.POST)
-	public String update(@ModelAttribute("user") User user, BindingResult result, SessionStatus status)
+	public ModelAndView update(@ModelAttribute("user") User user, BindingResult result, SessionStatus status)
 	{
+		validator.validate(user, result);
+		ModelAndView mav = new ModelAndView("modifyUser");
+		InvocationResult invocationResult = null;
 		if (result.hasErrors()) {
-			return "modifyUser";
-		}
+ 
+            return mav;
+        }
 		try{
-			InvocationResult invocationResult = userManagementService.updateUserProfile(user);
+			invocationResult = userManagementService.updateUserProfile(user);
 			if(!org.springframework.util.CollectionUtils.isEmpty(invocationResult.getErrors()))
 			{
 				for(KeyValue key: invocationResult.getErrors())
 				{
 					result.rejectValue(key.getField(), key.getKey());
 				}
-				return "modifyUser";
+				return mav;
 			}
 		}catch (Exception ex)
 		{
 			ex.printStackTrace();
 		}
 		status.setComplete();
-		return "redirect:/home";
+		invocationResult.setStatusMessage("Updated User Profile successfully");
+		mav.getModelMap().put("result", invocationResult);
+		mav.setViewName("confirmation");
+		return mav;
 	}
 	
 	
@@ -228,4 +299,18 @@ public class UserManagementController
 		System.out.println("userManagementService Property set");
 		this.userManagementService = userManagementService;
 	}
+	
+	public User getUser(){
+		
+		User user = null;
+		if (SecurityContextHolder.getContext().getAuthentication() != null && 
+				SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null &&
+				SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
+			
+			user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		}
+		
+		return user;	
+	}
+	
 }

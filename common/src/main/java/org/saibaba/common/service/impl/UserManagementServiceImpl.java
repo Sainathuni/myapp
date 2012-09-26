@@ -32,14 +32,19 @@ import org.saibaba.domain.security.SecurityConstants;
 import org.saibaba.domain.user.User;
 import org.saibaba.fw.exception.ServiceException;
 import org.saibaba.fw.utils.CollectionUtils;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.mail.MailException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 public class UserManagementServiceImpl extends AbstractCommonServiceImpl
-		implements UserManagementService {
+		implements UserManagementService,	UserDetailsService {
 
 	private UserManagementDao userManagementDao;
 	private UserMergeService userMergeService;
@@ -83,7 +88,7 @@ public class UserManagementServiceImpl extends AbstractCommonServiceImpl
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public User loginUser(String email, String password)
+	public User validateUserCredentials(String email, String password)
 			throws ServiceException, UserException {
 		User user = null;
 		try {
@@ -103,8 +108,23 @@ public class UserManagementServiceImpl extends AbstractCommonServiceImpl
 		}
 	}
 
+	public void forgotPassword(String email) throws ServiceException,
+			UserException {
+		User user = null;
+		try {
+			user = this.getUserManagementDao().getUserByEmail(email);
+			if (user == null) {
+				throw new UserException(UserConstants.INVALID_USER_ID,
+						"Invalid User ID");
+			}
+			//Send an email here to the user.
+		} catch (DaoException ex) {
+			throw new ServiceException("Error getting user", ex);
+		}
+	}
+
 	@Override
-	@Secured( { SecurityConstants.ROLE_SA })
+	//@Secured( { SecurityConstants.ROLE_SA })
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public List<User> searchUser(UserSearchCriteria criteria)
 			throws ServiceException {
@@ -122,7 +142,7 @@ public class UserManagementServiceImpl extends AbstractCommonServiceImpl
 	}
 
 	@Override
-	@Secured( { SecurityConstants.ROLE_SA })
+	//@Secured( { SecurityConstants.ROLE_SA })
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
 	public User approveUser(Long userId) throws ServiceException {
 		try {
@@ -142,7 +162,7 @@ public class UserManagementServiceImpl extends AbstractCommonServiceImpl
 	}
 
 	@Override
-	@Secured( { SecurityConstants.ROLE_SA })
+	//@Secured( { SecurityConstants.ROLE_SA })
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
 	public User rejectUser(Long userId) throws ServiceException {
 		try {
@@ -162,7 +182,7 @@ public class UserManagementServiceImpl extends AbstractCommonServiceImpl
 	}
 
 	@Override
-	@Secured( { SecurityConstants.ROLE_SA })
+	//@Secured( { SecurityConstants.ROLE_SA,  })
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
 	public User updateUser(User user) throws ServiceException {
 		try {
@@ -186,12 +206,14 @@ public class UserManagementServiceImpl extends AbstractCommonServiceImpl
 			// Get the existing user
 			User existingUser = this.getUserManagementDao().getUserByEmail(
 					updatedUser.getEmail());
-			if (!updatedUser.getPassword().equals(updatedUser.getConfirmPassword())) {
+			if (!updatedUser.getPassword().equals(
+					updatedUser.getConfirmPassword())) {
 				errors.add(new KeyValue("confirmPassword",
-						UserConstants.PASSWORD_CONFIRM_PASSWORD_MATCH_ERROR, null));
+						UserConstants.PASSWORD_CONFIRM_PASSWORD_MATCH_ERROR,
+						null));
 			}
-//			 errors = this.validateUserProfile(updatedUser,
-//					existingUser);
+			// errors = this.validateUserProfile(updatedUser,
+			// existingUser);
 			if (CollectionUtils.isEmpty(errors)) {
 				// Merge updated user data
 				this.getUserMergeService().mergeUserProfile(updatedUser,
@@ -215,7 +237,7 @@ public class UserManagementServiceImpl extends AbstractCommonServiceImpl
 	}
 
 	@Override
-	@Secured( { SecurityConstants.ROLE_SA })
+	//@Secured( { SecurityConstants.ROLE_SA })
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
 	public void deleteUser(String email) throws ServiceException {
 		try {
@@ -266,15 +288,17 @@ public class UserManagementServiceImpl extends AbstractCommonServiceImpl
 		Validate.notNull(userMergeService, "userMergeService must not be null");
 	}
 
-	private List<KeyValue> validateUserProfile(User updatedUser, User existingUser)
-			throws ServiceException {
+	private List<KeyValue> validateUserProfile(User updatedUser,
+			User existingUser) throws ServiceException {
 
 		List<KeyValue> errors = new ArrayList<KeyValue>();
 
 		if (StringUtils.isNotEmpty(updatedUser.getPassword())) {
 			if (StringUtils.equals(updatedUser.getPassword(), existingUser
 					.getPassword()) == false) {
-				errors.add(new KeyValue("password",INVALID_OLD_PASSWORD,null));
+				errors
+						.add(new KeyValue("password", INVALID_OLD_PASSWORD,
+								null));
 				return errors;
 			}
 		}
@@ -282,7 +306,7 @@ public class UserManagementServiceImpl extends AbstractCommonServiceImpl
 		return errors;
 	}
 
-	@Secured( { SecurityConstants.ROLE_SA })
+	//@Secured( { SecurityConstants.ROLE_SA })
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class, readOnly = true)
 	public List<User> getUsersByRoleStatus(String roleCode, String statusCode)
 			throws ServiceException {
@@ -307,12 +331,14 @@ public class UserManagementServiceImpl extends AbstractCommonServiceImpl
 			User existingUser = this.getUserManagementDao().getUserByEmail(
 					user.getEmail());
 			if (existingUser != null) {
-				errors.add(new KeyValue("email", UserConstants.EMAIL_EXISTS, null));
+				errors.add(new KeyValue("email", UserConstants.EMAIL_EXISTS,
+						null));
 
 			}
 			if (!user.getPassword().equals(user.getConfirmPassword())) {
 				errors.add(new KeyValue("confirmPassword",
-						UserConstants.PASSWORD_CONFIRM_PASSWORD_MATCH_ERROR, null));
+						UserConstants.PASSWORD_CONFIRM_PASSWORD_MATCH_ERROR,
+						null));
 			}
 
 			if (errors.isEmpty()) {
@@ -409,5 +435,40 @@ public class UserManagementServiceImpl extends AbstractCommonServiceImpl
 			throw new ServiceException("Error while rejecting.", ex);
 		}
 	}
+	@Override
+	public UserDetails loadUserByUsername(String email)
+		throws UsernameNotFoundException, DataAccessException {
+		
+		try {
+			return userManagementDao.getUserByEmail(email);
+		} catch (DaoException ex) {
+			throw new DataRetrievalFailureException("Error Retrieving user by username: ",ex);
+		}
+		
+	}
 
+	/**@Override
+	public Authentication authenticate(Authentication authRequest)
+		throws AuthenticationException {
+
+		Authentication auth = null;
+		try {
+			User user = userManagementDao.getUserByEmail(authRequest.getName());
+			if(user != null && user.getPassword().equals(authRequest.getCredentials())) {
+				if(UserStatus.APPROVED.equals(user.getStatus().getCode())) {
+					auth = new UsernamePasswordAuthenticationToken(user,authRequest.getCredentials(),user.getAuthorities());
+					SecurityContextHolder.getContext().setAuthentication(auth);
+					return auth;
+				} else {
+					user.setInvalidLoginAttempt(user.getInvalidLoginAttempt() + 1);
+					//userManagementDao.updateUser(user);
+					throw new BadCredentialsException("Invalid Credentials.");
+				}
+			} 
+		} catch(DaoException ex) {
+			throw new BadCredentialsException("Error while authentication.");
+		}
+		
+		return auth;
+	}*/
 }

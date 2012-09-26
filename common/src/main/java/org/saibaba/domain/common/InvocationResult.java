@@ -13,6 +13,15 @@ public class InvocationResult extends BaseEntity{
 	public static final String ERROR = "ERROR";
 	
 	private String status;
+	private String statusMessage;
+	public String getStatusMessage() {
+		return statusMessage;
+	}
+
+	public void setStatusMessage(String statusMessage) {
+		this.statusMessage = statusMessage;
+	}
+
 	private Entity result;
 	
 	private List<KeyValue> messages;

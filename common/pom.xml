@@ -106,6 +106,22 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.2.2</version>
 		</dependency>
+	<dependency>
+    	<groupId>org.springmodules</groupId>
+    	<artifactId>spring-modules-validation</artifactId>
+    	<version>0.8</version>
+    		<exclusions>
+        		<exclusion>
+		            <groupId>org.springframework</groupId>
+		            <artifactId>spring</artifactId>
+        		</exclusion>
+        	<exclusion>
+            	<groupId>org.springframework</groupId>
+            	<artifactId>spring-mock</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+
 		<dependency>
 			<groupId>commons-pool</groupId>
 			<artifactId>commons-pool</artifactId>

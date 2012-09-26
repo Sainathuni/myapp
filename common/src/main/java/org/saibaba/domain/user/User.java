@@ -12,28 +12,38 @@ import org.saibaba.fw.domain.KeyedEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springmodules.validation.bean.conf.loader.annotation.handler.Length;
+import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank;
 
 public class User extends KeyedEntity implements UserDetails {
 	private static final long serialVersionUID = 1779793588084098501L;
+	
+	@NotBlank
+    @Length(min = 1, max = 50)
 	private String firstName;
+	
+	@NotBlank
+    @Length(min = 1, max = 50)
 	private String lastName;
 	
 	
 	private String phoneNumber;
 	
+	@NotBlank
+    @Length(min = 5)
 	private String email;
 	private Integer invalidLoginAttempt;
 	private String existingPassword;
-	public String getExistingPassword() {
-		return existingPassword;
-	}
+	
 
-	public void setExistingPassword(String existingPassword) {
-		this.existingPassword = existingPassword;
-	}
-
+	@NotBlank
+    @Length(min = 3)
 	private String password;
+	
+	@NotBlank
+    @Length(min = 3)
 	private String confirmPassword;
+	
 	private Timestamp passwordDate;
 	
 	
@@ -41,6 +51,15 @@ public class User extends KeyedEntity implements UserDetails {
 
 	private Role role;
 	
+	private Collection<GrantedAuthority> grantedAuthorities;
+	
+	public String getExistingPassword() {
+		return existingPassword;
+	}
+
+	public void setExistingPassword(String existingPassword) {
+		this.existingPassword = existingPassword;
+	}
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}
@@ -55,8 +74,6 @@ public class User extends KeyedEntity implements UserDetails {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-
-	private Collection<GrantedAuthority> grantedAuthorities;	
 
 	public String getFirstName() {
 		return firstName;
@@ -125,10 +142,11 @@ public class User extends KeyedEntity implements UserDetails {
 
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
+		GrantedAuthorityImpl ga = null;
 		if (grantedAuthorities == null){
 			grantedAuthorities = new ArrayList<GrantedAuthority>();
-			GrantedAuthorityImpl ga = new GrantedAuthorityImpl(SecurityConstants.ROLE_USER);
-			grantedAuthorities.add(ga);
+			//GrantedAuthorityImpl ga = new GrantedAuthorityImpl(SecurityConstants.ROLE_USER);
+			//grantedAuthorities.add(ga);
 			if(role != null) {
 				ga = new GrantedAuthorityImpl(SecurityConstants.ROLE_SUFFIX + role.getCode());
 				grantedAuthorities.add(ga);
@@ -150,21 +168,21 @@ public class User extends KeyedEntity implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return UserStatus.APPROVED.equals(status);
+		return status != null ? UserStatus.APPROVED.equals(status.getCode()): false;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return UserStatus.APPROVED.equals(status);
+		return status != null ? UserStatus.APPROVED.equals(status.getCode()): false;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return UserStatus.APPROVED.equals(status);
+		return status != null ? UserStatus.APPROVED.equals(status.getCode()): false;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return UserStatus.APPROVED.equals(status);
+		return status != null ? UserStatus.APPROVED.equals(status.getCode()): false;
 	}
 }

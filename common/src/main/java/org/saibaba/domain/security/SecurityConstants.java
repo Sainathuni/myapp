@@ -7,9 +7,8 @@ public interface SecurityConstants {
 	
 	public static final String ROLE_SUFFIX = "ROLE_";
 	
-	public static final String ROLE_USER 	= "ROLE_USER";
-	public static final String ROLE_AFOD 			= ROLE_SUFFIX + Role.TCO;
-	public static final String ROLE_CCR 			= ROLE_SUFFIX + Role.USER;
+	public static final String ROLE_USER 	= ROLE_SUFFIX + Role.USER;
+	public static final String ROLE_TCO 			= ROLE_SUFFIX + Role.TCO;
 	public static final String ROLE_SA 				= ROLE_SUFFIX + Role.SA;
 	
 	public static final String ROLE_APPROVE_USER 	= ROLE_SUFFIX + Privilege.APPROVE_USER;

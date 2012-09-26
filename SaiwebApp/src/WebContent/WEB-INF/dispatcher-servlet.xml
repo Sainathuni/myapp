@@ -105,8 +105,15 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		</property>
 	</bean>
 	<bean id="dataSource"
-	class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-	p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}"
-	p:username="${jdbc.username}" p:password="${jdbc.password}" />
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}"
+		p:username="${jdbc.username}" p:password="${jdbc.password}" />
+		
+		<bean id="configurationLoader"
+         class="org.springmodules.validation.bean.conf.loader.annotation.AnnotationBeanValidationConfigurationLoader"/>
+ 		<bean id="validator" class="org.springmodules.validation.bean.BeanValidator"
+         p:configurationLoader-ref="configurationLoader"/>
+         
+         <import resource="spring-security.xml" />
 
 </beans>

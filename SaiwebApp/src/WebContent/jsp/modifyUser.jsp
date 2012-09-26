@@ -10,14 +10,14 @@
 </head>
 <body style="font-family: Arial; font-size: smaller;">
 
-	<table bgcolor="lightblue" width="750" height="500" align="center"
+	<table bgcolor="lightblue" width="850" height="500" align="center"
 		style="border-collapse: collapse;" border="1" bordercolor="#006699">
 		<tr>
-			<td align="center"><h3>Modify User</h3></td>
+			<td align="center"><h3>Modify User Profile</h3></td>
 		</tr>
 		<tr valign="top" align="center">
 			<td align="center">
-			<form:form action="modifyUser" method="post" commandName="user">
+			<form:form action="modifyUser.html" method="post" commandName="user">
 					<fieldset>
 						<legend>
 							<span> User Details</span>
@@ -102,7 +102,7 @@
 								value="Save">
       <input type="reset" name="Reset" id="Reset" value="Reset" />
     &nbsp;&nbsp; <input type="button"
-								value="Back" onclick="javascript:go('home');">
+								value="Back" onclick="javascript:go('home.html');">
     </fieldset>
 		</form:form>
 	
