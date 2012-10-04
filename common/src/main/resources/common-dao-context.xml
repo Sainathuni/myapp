@@ -27,4 +27,8 @@
 		class="org.saibaba.common.persistent.impl.UserManagementDaoImpl">
 	</bean>
 
+	<bean id="fileInfoDao" parent="genericDao"
+		class="org.saibaba.common.persistent.impl.FileInfoDaoImpl">
+	</bean>
+
 </beans>

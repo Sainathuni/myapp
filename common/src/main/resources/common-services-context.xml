@@ -3,7 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:flex="http://www.springframework.org/schema/flex"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
  	http://www.springframework.org/schema/flex  http://www.springframework.org/schema/flex/spring-flex-1.0.xsd">
-
+	
+	
 	<bean 
 		id="messageSource"
         class="org.springframework.context.support.ResourceBundleMessageSource">
@@ -43,6 +44,12 @@
 		class="org.saibaba.common.service.impl.UserManagementServiceImpl" >
 		<property name="userManagementDao" ref="userManagementDao" />
 		<property name="userMergeService" ref="userMergeService" />
+	</bean>
+	<bean id="miscService" parent="abstractCommonService"
+		class="org.saibaba.common.service.impl.MiscServiceImpl" >
+		<property name="fileInfoDao" ref="fileInfoDao" />
+		<property name="contentRootPath" value="${contentRootPath}" />
+		<property name="contentRootFilesLocation" value="${contentRootFilesLocation}" />
 	</bean>
 
 </beans>

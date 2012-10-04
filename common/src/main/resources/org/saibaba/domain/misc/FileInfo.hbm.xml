@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="true"
+	default-access="property" default-cascade="all" package="org.saibaba.domain.misc">
+
+   	<!-- typedef class="org.saibaba.domain.common.GenericEnumUserType" name="fileType">
+	        <param name="enumClassName">org.saibaba.domain.misc.FileType</param>
+	        <param name="identifierMethod">name</param>
+   	</typedef-->
+	<class name="FileInfo" table="file_info" dynamic-update="true">
+
+		<id name="id" type="long" column="file_info_id" unsaved-value="0">
+			<generator class="identity">
+			</generator>
+		</id>
+
+		<property name="fileName" type="string" column="file_name" />
+		<property name="url" type="string" column="url" />
+		<!--property name="fileType" type="fileType" column="file_type" /-->	
+		<!-- property name="fileType" column="file_type">
+	      <type name="org.hibernate.type.EnumType">
+	         <param name="enumClass">org.saibaba.domain.misc.FileType</param>
+	      </type>
+   		</property-->		
+		<property name="description" type="string" column="description" />
+		<property name="mandirId" type="long" column="mandir_id" />	
+		<property name="createdBy" type="long" column="rec_created_by" update="false" />
+		<property name="createdDate" type="timestamp" column="rec_created_date"  update="false" />
+		<property name="modifiedBy" type="long" column="rec_modified_by" />
+		<property name="modifiedDate" type="timestamp" column="rec_modified_date" not-null="false" />
+	
+	</class>
+
+    <query name="fileInfoQuery_GetByMandirId">
+		FROM FileInfo WHERE file_info_id = :mandirId
+    </query>
+
+</hibernate-mapping>

@@ -52,7 +52,7 @@ public class UserManagementTest extends AbstractCommonTest {
 	public void testgetUserByEmail() {
 		try {
 			
-			User user = userManagementService.getUserByEmail("venky@saimail.com");
+			User user = userManagementService.getUserByEmail("venkypk@saimail.com");
 			log.info("User:{}", user);
 		} catch (Throwable th) {
 			log.error("Failed to get User", th);

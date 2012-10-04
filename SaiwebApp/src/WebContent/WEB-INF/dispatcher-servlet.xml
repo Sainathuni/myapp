@@ -115,5 +115,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
          p:configurationLoader-ref="configurationLoader"/>
          
          <import resource="spring-security.xml" />
-
+ 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- one of the properties available; the maximum file size in bytes -->
+        <property name="maxUploadSize" value="25000000"/>
+    </bean>
 </beans>

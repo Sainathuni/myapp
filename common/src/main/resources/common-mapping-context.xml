@@ -13,6 +13,7 @@
 		<constructor-arg>
 			<list>
 				<value>org/saibaba/domain/user/User.hbm.xml</value>
+				<value>org/saibaba/domain/misc/FileInfo.hbm.xml</value>
 			</list>
 		</constructor-arg>
 	</bean>
