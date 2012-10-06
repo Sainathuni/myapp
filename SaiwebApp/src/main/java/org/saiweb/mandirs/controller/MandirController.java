@@ -16,6 +16,7 @@ import org.saiweb.mandirs.dao.api.MandirDAO;
 import org.saiweb.mandirs.dao.api.RegionDAO;
 import org.saiweb.mandirs.dao.api.StateDAO;
 import org.saiweb.mandirs.dao.api.StatusDAO;
+import org.saiweb.mandirs.jaxb.MandirInfo;
 import org.saiweb.mandirs.model.Address;
 import org.saiweb.mandirs.model.Contact;
 import org.saiweb.mandirs.model.Country;
@@ -165,6 +166,20 @@ public class MandirController {
 		mav.getModelMap().put("addMandir", mandir);
 		return mav;
 	}
+	
+	@RequestMapping(value = "/addMandirDetails", method = RequestMethod.GET)
+	public ModelAndView addMandirDetails(@RequestParam("id") Integer id) {
+		ModelAndView mav = new ModelAndView("addMandirDetails");
+		MandirInfo mandir = new MandirInfo();
+		mandir.getDetails().getLine().add("line1");
+
+		mandir.getDetails().getLine().add("line2");
+
+		mandir.getDetails().getLine().add("line3");
+		mav.getModelMap().put("addMandirDetails", mandir);
+		return mav;
+	}
+
 
 	@RequestMapping(value = "/saveMandir", method = RequestMethod.POST)
 	public String saveMandir(@ModelAttribute("addMandir") Mandir mandir,

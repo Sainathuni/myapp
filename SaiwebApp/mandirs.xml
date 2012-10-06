@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mandir>
+    <mandirName>Sri Sai Baba Mandir</mandirName>
+    <mandirId>10</mandirId>
+    <mandirCode>hyd001</mandirCode>
+    <directions>directios</directions>
+    <address>
+        <line1>1</line1>
+    </address>
+    <details>
+        <line>sai</line>
+        <line>baba</line>
+    </details>
+    <socialActivities>
+        <para>para1</para>
+    </socialActivities>
+</mandir>
