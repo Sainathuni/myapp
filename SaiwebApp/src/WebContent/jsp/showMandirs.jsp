@@ -50,6 +50,8 @@
 							&nbsp;<a href="mandirDataFlow.html?id=${mandir.mandirId}">Data
 								WorkFlow</a> &nbsp;&nbsp;<a
 							href="deleteMandir.html?id=${mandir.mandirId}">Delete</a>
+							&nbsp;&nbsp;<a
+							href="showFiles.html?id=${mandir.mandirId}&code=${mandir.code}">Upload Files</a>
 						</td>
 					</tr>
 				</c:forEach>

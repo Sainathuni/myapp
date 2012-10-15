@@ -142,6 +142,18 @@ public class MiscServiceImpl extends AbstractCommonServiceImpl implements
 		return addFileInfo(info);
 	}
 
+	public InvocationResult deleteFileItem(Long id, String mandirCode) throws ServiceException 
+	{
+		FileInfo info = getFileInfoById(id);
+		if(info != null)
+		{
+			return deleteFileInfo(id);
+		}
+		InvocationResult result = new InvocationResult();
+		result.setStatus(InvocationResult.ERROR);
+		return result;
+	}
+	
 	private FileInfo buildFileInfo(UploadItem item, User user) {
 		FileInfo info = new FileInfo();
 		info.setMandirId(item.getMandirId());

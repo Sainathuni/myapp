@@ -35,7 +35,7 @@
 	</class>
 
     <query name="fileInfoQuery_GetByMandirId">
-		FROM FileInfo WHERE file_info_id = :mandirId
+		FROM FileInfo WHERE mandir_id = :mandirId
     </query>
 
 </hibernate-mapping>

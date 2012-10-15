@@ -21,6 +21,6 @@ public interface MiscService {
 	public InvocationResult updateFileInfo(FileInfo fileInfo) throws ServiceException;
 	
 	public InvocationResult deleteFileInfo(Long fileInfoId) throws ServiceException;
-
+	public InvocationResult deleteFileItem(Long id, String mandirCode) throws ServiceException;
 
 }
