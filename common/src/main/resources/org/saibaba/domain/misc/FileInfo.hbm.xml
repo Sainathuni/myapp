@@ -38,4 +38,8 @@
 		FROM FileInfo WHERE mandir_id = :mandirId
     </query>
 
+   <query name="fileInfoQuery_GetByURL">
+		FROM FileInfo WHERE url = :url
+    </query>
+
 </hibernate-mapping>

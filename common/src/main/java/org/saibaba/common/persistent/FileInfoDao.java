@@ -48,5 +48,7 @@ public interface FileInfoDao {
      * @throws DaoException
      */
     public void deleteFileInfo(Long fileInfoId) throws DaoException;
+    
+    public List<FileInfo> getFileInfoByURL(String url)  throws DaoException;
       
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.saibaba.common.service.MiscService;
 import org.saibaba.domain.common.InvocationResult;
+import org.saibaba.domain.common.KeyValue;
 import org.saibaba.domain.common.UploadItem;
 import org.saibaba.domain.misc.FileInfo;
 import org.saibaba.domain.user.User;
@@ -13,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +25,13 @@ public class UploadController {
 	
 	@Autowired
 	private MiscService miscService;
+	
+	@Autowired
+    private Validator validator;
+
+	public Validator getValidator() {
+		return validator;
+	}
 
 	public void setMiscService(MiscService miscService) {
 		this.miscService = miscService;
@@ -109,16 +118,21 @@ public class UploadController {
 	public ModelAndView create(UploadItem uploadItem, BindingResult result) {
 		ModelAndView mav = new ModelAndView("uploadFile");
 		InvocationResult invocationResult = new InvocationResult();
-		if (result.hasErrors()) {
-			for (ObjectError error : result.getAllErrors()) {
-				System.err.println("Error: " + error.getCode() + " - "
-						+ error.getDefaultMessage());
-			}
+		validator.validate(uploadItem, result);		
+		if (result.hasErrors()) {			
 			return mav;
 		}
 
 		try {
 			invocationResult = miscService.addFileItem(uploadItem, getUser());
+			if(!org.springframework.util.CollectionUtils.isEmpty(invocationResult.getErrors()))
+			{
+				for(KeyValue key: invocationResult.getErrors())
+				{
+					result.rejectValue(key.getField(), key.getKey());
+				}
+				return mav;
+			}
 		}catch(Throwable th)
 		{
 			th.printStackTrace();

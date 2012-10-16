@@ -11,6 +11,5 @@
 	<p><a href="newUser.html">New User Registration</a> </p>
 	<p><a href="modifyUser.html">Update User Profile</a> </p>
 	<p><a href="forgotPassword.html">Forgot Password</a> </p>
-	<p><a href="uploadFile.html">Upload File</a> </p>
 </body>
 </html>

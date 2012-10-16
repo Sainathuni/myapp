@@ -2,16 +2,30 @@ package org.saibaba.domain.common;
 
 import org.saibaba.fw.domain.BaseEntity;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springmodules.validation.bean.conf.loader.annotation.handler.Length;
+import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank;
+import org.springmodules.validation.bean.conf.loader.annotation.handler.NotNull;
 
 /**
  */
 public class UploadItem extends BaseEntity {
 
 	private static final long serialVersionUID = 6658408449656474328L;
+	
+	@NotBlank
+    @Length(min = 1, max = 50)
 	private String name;
-	private String description;
+	
+	private String description;	
+	
+	@NotNull
 	private Long mandirId;
+	
+	@NotBlank
+    @Length(min = 1, max = 50)
 	private String mandirCode;
+	
+	@NotNull
 	private CommonsMultipartFile fileData;
 
 	public String getName() {

@@ -13,7 +13,8 @@ import org.saibaba.fw.utils.CollectionUtils;
 
 public class FileInfoDaoImpl extends GenericDaoImpl implements FileInfoDao {
 
-	private static String GET_FILE_INFO_BY_MANDIR_ID = "fileInfoQuery_GetByMandirId";	
+	private static String GET_FILE_INFO_BY_MANDIR_ID = "fileInfoQuery_GetByMandirId";
+	private static String GET_FILE_INFO_BY_URL = "fileInfoQuery_GetByURL";
 
 	@Override
 	public FileInfo getFileInfoById(Long id) throws DaoException {
@@ -26,10 +27,6 @@ public class FileInfoDaoImpl extends GenericDaoImpl implements FileInfoDao {
 			throws DaoException {
 		Validate.notNull(mandirId, "mandirId must not be null");
 		try {
-			List<String> paramList = new ArrayList<String>();
-			List<Object> valueList = new ArrayList<Object>();
-			paramList.add("mandirId");
-			valueList.add(mandirId);
 			List list = findByNamedQueryAndNamedParam(GET_FILE_INFO_BY_MANDIR_ID, "mandirId", mandirId);
 				return (list != null && list.size() > 0) ? new ArrayList<FileInfo>(list) : new ArrayList<FileInfo>();
 			
@@ -38,6 +35,19 @@ public class FileInfoDaoImpl extends GenericDaoImpl implements FileInfoDao {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public List<FileInfo> getFileInfoByURL(String url)
+			throws DaoException {
+		Validate.notNull(url, "url must not be null");
+		try {
+			List list = findByNamedQueryAndNamedParam(GET_FILE_INFO_BY_URL, "url", url);
+				return (list != null && list.size() > 0) ? new ArrayList<FileInfo>(list) : new ArrayList<FileInfo>();
+			
+		} catch (Exception ex) {
+			throw new DaoException("getFileInfoByURL() mandirId = " + url,ex);
+		}
+	}
 	@Override
 	public FileInfo addFileInfo(FileInfo fileInfo) throws DaoException {
 		saveObject(fileInfo);

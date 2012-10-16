@@ -13,7 +13,7 @@
 	<table bgcolor="lightblue" width="850" height="300" align="center"
 		style="border-collapse: collapse;" border="1" bordercolor="#006699">
 		<tr>
-			<td align="center"><h3>Forgot Password</h3></td>
+			<td align="center"><h3>Upload File</h3></td>
 		</tr>
 		<tr valign="top" align="center">
 			<td align="center">
@@ -21,9 +21,7 @@
 					<fieldset>
 					<form:hidden path="mandirId"/>
 					<form:hidden path="mandirCode"/>
-						<legend>
-							<span> Upload File</span>
-						</legend>
+						
 						<dl>
 							<dt>
 								<label for="email">File Name</label>

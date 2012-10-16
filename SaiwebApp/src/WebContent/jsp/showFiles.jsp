@@ -14,15 +14,17 @@
 
 		<table style="border-collapse: collapse;" border="0"
 			bordercolor="#006699" width="500">
+			
 			<tr>
-				<td>Uploaded Files</td>
-				<td>&nbsp;&nbsp;<input type="button"
+				<td align="center"><h3>Uploaded Files</h3></td>
+				<td><input type="button"
 					value="Upload File" onclick="javascript:go('uploadFile.html?id=${MANDIR_ID}&code=${MANDIR_CODE}');" /></td>
 			</tr>
 		</table>
 		
 		<table style="border-collapse: collapse;" border="1"
 			bordercolor="#006699" width="980">
+			
 			<tr bgcolor="lightblue">
 				<th>File Name</th>
 				<th>URL</th>

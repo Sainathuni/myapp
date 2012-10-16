@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.saibaba.common.persistent.DaoException;
 import org.saibaba.common.persistent.FileInfoDao;
@@ -137,9 +139,23 @@ public class MiscServiceImpl extends AbstractCommonServiceImpl implements
 
 	public InvocationResult addFileItem(UploadItem uploadItem, User user)
 			throws ServiceException {
+		InvocationResult result = new InvocationResult();
 		FileInfo info = buildFileInfo(uploadItem, user);
-		writeFile(uploadItem, info.getUrl());
-		return addFileInfo(info);
+		List<FileInfo> fileInfos = this.getFileInfoDao().getFileInfoByURL(info.getUrl());
+		if(CollectionUtils.isNotEmpty(fileInfos))
+		{
+			result.setStatus(InvocationResult.ERROR);
+			List<KeyValue> errors = new ArrayList<KeyValue>();
+			errors.add(new KeyValue("fileData",
+					"error.upload.fileExists",	null));
+			result.setErrors(errors);
+		}
+		else
+		{
+			writeFile(uploadItem, info.getUrl());
+			result = addFileInfo(info);
+		}
+		return result;
 	}
 
 	public InvocationResult deleteFileItem(Long id, String mandirCode) throws ServiceException 
@@ -147,6 +163,7 @@ public class MiscServiceImpl extends AbstractCommonServiceImpl implements
 		FileInfo info = getFileInfoById(id);
 		if(info != null)
 		{
+			deleteFile(info);
 			return deleteFileInfo(id);
 		}
 		InvocationResult result = new InvocationResult();
@@ -185,42 +202,51 @@ public class MiscServiceImpl extends AbstractCommonServiceImpl implements
 		return buff.toString();
 	}
 	
+	private String getContentRootFilesLocationWithFileLocation(String url) {
+		StringBuffer buff = new StringBuffer();
+		if(url !=null)
+		{
+			String [] tokens = StringUtils.split(url,"/");
+			
+			if(tokens != null)
+			{
+				String fileName = tokens[tokens.length -1];
+				String mandirCode = tokens[tokens.length -2];
+				String pathSep = System.getProperty("file.separator");
+				buff.append(this.contentRootFilesLocation).append(pathSep).append(
+						mandirCode).append(pathSep).append(
+								fileName);
+				System.out.println("File Path:"+buff.toString());
+			}
+		}
+		return buff.toString();
+	}
+	
 	private void writeFile(UploadItem uploadItem, String path) throws ServiceException {
 		CommonsMultipartFile file = uploadItem.getFileData();
 		try{
-			//File writableFile = new File(path);
-			////FileWriter fw = new FileWriter(writableFile.getAbsoluteFile());
-			//BufferedWriter bw = new BufferedWriter(fw.w);
-			//bw.write(file.getBytes());
-			//bw.close();
-			//ClassLoader.getSystemClassLoader()./
 			File writableFile = new File(getContentRootFilesLocationWithFileLocation(uploadItem));
 			File parentDir = writableFile.getParentFile();
 			  if(! parentDir.exists()) {
 			      parentDir.mkdirs();
 			  }
 			file.transferTo(writableFile);			
-			//FileOutputStream fos = new FileOutputStream(path);
-			//FileUtils.writeByteArrayToFile(file, file.getBytes());
 			
-//			FileOutputStream fos = new FileOutputStream(getContentRootFilesLocationWithFileLocation(uploadItem));
-//	         try 
-//	         {
-//	            fos.write(file.getBytes());
-//	         } 
-//	         catch (IllegalStateException e) 
-//	         {
-//	            System.out.println(e);
-//
-//	         }
-//	         finally   
-//	         {
-//	             fos.close();
-//	         }
 
 		}catch (Throwable th)
 		{
 			throw new ServiceException ("Unable save file:"+file.getOriginalFilename(), th);
+		}
+	}
+	
+	private void deleteFile(FileInfo info)
+	{
+		if(info != null)
+		{
+			File file = new File(getContentRootFilesLocationWithFileLocation(info.getUrl()));
+			if (file.exists())	{
+				file.delete();
+			}
 		}
 	}
 }
